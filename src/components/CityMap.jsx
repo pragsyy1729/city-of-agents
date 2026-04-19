@@ -113,17 +113,18 @@ const EMPLOYER_TO_CATEGORY = {
   'Self':                  'house',
 }
 
-// Sprite paths (served from extension/public/)
+// Sprite paths — BASE_URL is '/' in dev, '/city-of-agents/' on GitHub Pages
+const BASE = import.meta.env.BASE_URL
 const SPRITE_PATHS = {
-  tiles:    '/sprites/Tiles.png',
-  building: '/sprites/Building.png',
-  trees:    '/sprites/Tree-Sheet.png',
-  body:     '/sprites/Character.png',
-  hairs:    '/sprites/Hairs.png',
-  shadow:   '/sprites/Shadow.png',
+  tiles:    `${BASE}sprites/Tiles.png`,
+  building: `${BASE}sprites/Building.png`,
+  trees:    `${BASE}sprites/Tree-Sheet.png`,
+  body:     `${BASE}sprites/Character.png`,
+  hairs:    `${BASE}sprites/Hairs.png`,
+  shadow:   `${BASE}sprites/Shadow.png`,
   outfits:  [
-    '/sprites/Outfit1.png', '/sprites/Outfit2.png', '/sprites/Outfit3.png',
-    '/sprites/Outfit4.png', '/sprites/Outfit5.png', '/sprites/Outfit6.png',
+    `${BASE}sprites/Outfit1.png`, `${BASE}sprites/Outfit2.png`, `${BASE}sprites/Outfit3.png`,
+    `${BASE}sprites/Outfit4.png`, `${BASE}sprites/Outfit5.png`, `${BASE}sprites/Outfit6.png`,
   ],
 }
 
