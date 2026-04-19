@@ -27,6 +27,7 @@ export const useSimulation = create((set, get) => ({
   selectedAgent: null,
   apiKey: null,
   _tickTimer: null,
+  _stepping: false,
 
   setApiKey: (key) => {
     set({ apiKey: key })
@@ -54,8 +55,10 @@ export const useSimulation = create((set, get) => ({
   },
 
   stepOnce: async () => {
+    if (get()._stepping) return   // prevent concurrent ticks
     const { agents, world, apiKey } = get()
     if (!apiKey) return
+    set({ _stepping: true })
     const newLogs = []
     const newEvents = []
     await runTick(agents, world, apiKey, (entry) => {
@@ -80,21 +83,31 @@ export const useSimulation = create((set, get) => ({
       world: { ...world },
       logs: [...s.logs, ...newLogs],
       events: [...s.events, ...newEvents].slice(-100),
+      _stepping: false,
     }))
   },
 
   _startTimer: () => {
-    const { speed } = get()
     get()._stopTimer()
-    const intervals = [60000, 30000, 20000, 15000, 12000]
-    const intervalMs = intervals[speed - 1] ?? 30000
-    const id = setInterval(() => get().stepOnce(), intervalMs)
-    set({ _tickTimer: id })
+    // Delay between ticks (after the previous tick fully completes)
+    const delays = { 1: 8000, 2: 4000, 5: 1000 }
+    const delay = delays[get().speed] ?? 4000
+
+    async function tick() {
+      if (!get().isRunning) return
+      await get().stepOnce()
+      if (get().isRunning) {
+        set({ _tickTimer: setTimeout(tick, delay) })
+      }
+    }
+
+    // Start first tick immediately
+    set({ _tickTimer: setTimeout(tick, 0) })
   },
 
   _stopTimer: () => {
     const { _tickTimer } = get()
-    if (_tickTimer) { clearInterval(_tickTimer); set({ _tickTimer: null }) }
+    if (_tickTimer) { clearTimeout(_tickTimer); set({ _tickTimer: null }) }
   },
 
   clearLogs: () => set({ logs: [] }),
