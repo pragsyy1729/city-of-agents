@@ -1,7 +1,7 @@
-// Dev: use Vite proxy to avoid CORS. Production (GitHub Pages): call API directly.
+// Dev: Vite proxy. Production: Cloudflare Worker proxy (handles CORS).
 const NVIDIA_BASE = import.meta.env.DEV
   ? '/nvidia-api/v1'
-  : 'https://integrate.api.nvidia.com/v1'
+  : 'https://city-of-agents.pragathivetrivelmurugan-35b.workers.dev'
 
 export async function callNvidia(apiKey, systemPrompt, userPrompt) {
   const start = Date.now()
