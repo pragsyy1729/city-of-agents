@@ -1,0 +1,12 @@
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html, body, #root { width: 100%; height: 100%; overflow: hidden; background: #1a1a2e; font-family: 'Press Start 2P', monospace; }
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-thumb { background: #2d3561; }
+
+@keyframes agentBob { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-4px)} }
+@keyframes crisispulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
+@keyframes speechFade { 0%{opacity:0;transform:translateY(4px)} 100%{opacity:1;transform:translateY(0)} }
+@keyframes legSwingA { 0%,100%{transform:rotate(-18deg)} 50%{transform:rotate(18deg)} }
+@keyframes legSwingB { 0%,100%{transform:rotate(18deg)} 50%{transform:rotate(-18deg)} }
